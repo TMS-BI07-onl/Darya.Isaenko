@@ -1,0 +1,24 @@
+Well done! 
+
+4. 
+a) -1
+Correct answer:	SELECT COUNT(DISTINCT PersonType) AS DistinctCount
+		FROM Person.Person
+		WHERE LastName LIKE 'M%' 
+			OR NOT EmailPromotion LIKE '%1%' 
+You forgot to add count. When the task is about calculating amount of rows, you can't rely on the number in the corner of the window.
+Second condition is not "equal", it's "including". For example, if after next data update there is a EmailPromotion 3451654, it should be added to the final result set.
+d) 
+Expected answer:
+	SELECT  ProductSubcategoryID,
+		MIN(Weight) AS Min_weight, 
+		MAX(Size) AS Max_size
+	FROM Production.Product
+	GROUP BY ProductSubcategoryID
+     Actually, you were not wrong with excluding ProductSubcategoryID from select, but I think it's obvious that without this column it's hard to read and understand query results. 
+e) 
+The same issue as in the d. 
+
+
+Mark: 9.
+
