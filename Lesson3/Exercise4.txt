@@ -1,0 +1,68 @@
+		-- EXERCISE 4
+
+/*
+Найдите имена созвучные с 'Michael'.
+*/
+SELECT DISTINCT [FirstName]
+FROM [Person].[Person]
+WHERE SOUNDEX([FirstName]) = SOUNDEX('Michael')							-- 1 функция SOUNDEX()
+
+/*
+Вывести номер телефона, год, месяц, день, а также день недели. Условия: 2009 год, день недели понедельник и пятница, месяц - до августа, 5 и 9 дни месяца.
+*/
+SELECT [PhoneNumber], 
+	YEAR([ModifiedDate]) as Year, 
+	MONTH([ModifiedDate]) AS Month, 
+	DAY([ModifiedDate]) AS Day, 
+	DATENAME(weekday, [ModifiedDate]) AS Day_of_week
+FROM [Person].[PersonPhone]
+WHERE YEAR([ModifiedDate]) = 2009
+	AND  MONTH([ModifiedDate]) < 8
+	AND DAY([ModifiedDate]) IN (5, 9)
+	AND DATENAME(weekday, [ModifiedDate]) IN ('Monday', 'Friday')				-- 4 функции YEAR(), MONTH(), DAY(), DATENAME()
+
+/*
+Вывести вместе форму обращения (title), имя и фамилию, где форма обращения известна. Фамилия должна быть выведена большими буквами.
+*/
+SELECT [Title] + SPACE(1) + [FirstName] + SPACE(1) + UPPER([LastName]) AS Person
+FROM [Person].[Person]
+WHERE [Title] IS NOT NULL									-- 2 функции SPACE(), UPPER()
+
+	-- ИЛИ с использованием функции CONCAT_WS
+SELECT CONCAT_WS(' ', [Title], [FirstName], UPPER([LastName])) AS Person
+FROM [Person].[Person]
+WHERE [Title] IS NOT NULL									-- 2 функции CONCAT_WS(), UPPER()
+
+/*
+Вывести дату в формате 'dd/MM/yyyy' из таблицы [Person].[PersonPhone].
+*/
+SELECT FORMAT([ModifiedDate],'dd/MM/yyyy') AS new_ModifiedDate
+FROM [Person].[PersonPhone]									-- 1 функция FORMAT()
+
+/*
+Вывести первые 3 фамилии в обратном порядке.
+*/
+SELECT TOP 3 [LastName], 
+	     REVERSE([LastName]) AS Reverse  
+FROM [Person].[Person]										-- 1 функция REVERSE()
+
+/*
+Вычислите следующие значения: косинус 30; синус 89; тангенс 46; логарифм 3247; возведите 45 в 5 степень. 
+*/
+SELECT COS(30) AS cos,
+	SIN(89) AS sin,
+	TAN(46) AS tan,
+	LOG(3247) AS log,
+ 	POWER(45.0, 5) AS power									-- 5 функций COS(), SIN(), TAN(), LOG(), POWER()
+	
+/*
+Получите положительное произведение (-31)*7.
+*/
+SELECT ABS(-31)*7 AS abs									-- 1 функция ABS()
+
+/*
+Округлите [StandardCost] до точки в таблице [Production].[Product].
+*/
+SELECT ROUND([StandardCost], 0) AS round_cost
+FROM [Production].[Product]
+ORDER BY round_cost DESC									-- 1 функция ROUND()
