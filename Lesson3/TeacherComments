@@ -1,0 +1,36 @@
+Well done!
+
+2.
+a)
+Technically, while writing second and third condition for this task you could leave only <100 and <500, because all conditions is being checked in the written order. It's just for your information. :)
+с)-1
+Correct answer:
+SELECT DISTINCT Name
+FROM Purchasing.Vendor v 
+		LEFT JOIN Purchasing.ProductVendor pv ON v.BusinessEntityID=pv.BusinessEntityID
+WHERE pv.BusinessEntityID IS NULL
+ProductVendor stores data about sales. So, you need to take ALL vendors and add sales for those who had that data. That's why Vendors should be the table on the left.
+
+3.
+a)-1
+Correct answers:
+SELECT Название
+FROM Фирмы-производители 
+WHERE id NOT IN (SELECT преп.id_фирмы
+				FROM Фармпрепараты преп
+						JOIN Продажи прод ON преп.id=прод.id_фармпрепарата
+						JOIN Кассовые_чеки чек ON прод.id_чека=чек.id 
+				WHERE YEAR(Дата)=2019)
+--=
+SELECT преп.id_фирмы
+FROM Фирмы-производители фирма 
+	JOIN Фармпрепараты преп ON фирма.id=преп.id_фирмы
+	JOIN Продажи прод ON преп.id=прод.id_фармпрепарата
+	LEFT JOIN Кассовые_чеки чек ON прод.id_чека=чек.id 
+WHERE YEAR(Дата)=2019 AND чек.id IS NULL
+Your solution is not correct, because it will show all producers that have sales in other years. But that doesn't mean that these producers didn't have sales in the 2019.
+
+c)
+It would be better not to base count on the name. Name could include null. You can use id (because it's pk) or 1.
+
+Mark:5+3
