@@ -1,0 +1,12 @@
+Well done!
+
+B -0.5
+Why do you need to split name and date of birth to different tables? Also your solution will lead you to join by ФИО, which is very bad. Add ids.
+
+D -0.5
+car_id is already a PK for 2nf
+
+E -0.5
+If you already started to move location attributes, you need to do it for all of them. Once again, your answer lead to joining on char column.
+
+Mark: 9
