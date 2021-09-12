@@ -1,0 +1,9 @@
+Решите следующую задачу.
+Дана таблица людей People. Поля: ID, FirstName, ParentName,LastName, ID_Father, ID_Mother.
+Для всех Дмитриев выведите их ФИО и ФИО их отцов.
+
+
+SELECT  CONCAT(p.LastName, ' ' , p.FirstName, ' ', p.ParentName) AS ФИО,
+	CONCAT(p1.LastName, ' ' , p1.FirstName, ' ', p1.ParentName) AS ФИО_отца
+FROM People p, People p1
+WHERE p.ID_Father = p1.ID AND p.FirstName = 'Дмитрий'
