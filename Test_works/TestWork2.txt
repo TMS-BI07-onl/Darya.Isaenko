@@ -1,0 +1,40 @@
+--1
+SELECT p.FirstName, p.LastName, ph.PhoneNumber
+FROM [Person].[Person] p INNER JOIN [Person].[PersonPhone] ph
+ON p.BusinessEntityID = ph.BusinessEntityID 
+WHERE ph.PhoneNumber LIKE ('4_5%')
+
+--2
+SELECT [BusinessEntityID], [BirthDate], (DATEPART(yy,GETDATE())-DATEPART(yy,[BirthDate])) AS Year,
+ CASE 
+	WHEN (DATEPART(yy,GETDATE())-DATEPART(yy,[BirthDate])) BETWEEN 17 AND 20 THEN 'Adolescence'
+	WHEN (DATEPART(yy,GETDATE())-DATEPART(yy,[BirthDate])) BETWEEN 21 AND 59 THEN 'Adults'
+	WHEN (DATEPART(yy,GETDATE())-DATEPART(yy,[BirthDate])) BETWEEN 60 AND 75 THEN 'Elderly'
+	ELSE 'Senile'
+END
+FROM [HumanResources].[Employee]
+
+--3
+SELECT [Name], Color, 
+MAX([StandardCost]) OVER (PARTITION BY [Color])
+FROM [Production].[Product]
+
+
+Туристическое агенство
+
+1. Туристические агенства: idТА, название, расположение
+
+2. Тур: idТ, idТА, название_тура, idС, idВ
+
+3. Вид тура: idВ, вид_название
+
+4. Страна: idС, страна
+
+5. Путевка: idП, idТ, цена
+
+6. Продажи: idПр, idП, idК, количество, дата_продажи
+
+7. Клиент: idК, имя, фамилия, отчество, паспорт
+
+Задачи: Какой самый частый клиент у тур.агенства "N".
+Вывести самого частого клиента  тур. агенств (обращался много раз).
