@@ -1,6 +1,6 @@
 			--PIVOT
 
--- Напишите скрипт для суммы OrderQty для каждого года и зимних месяцев из Production.WorkOrder в виде транспонированной матрицы
+-- РќР°РїРёС€РёС‚Рµ СЃРєСЂРёРїС‚ РґР»СЏ СЃСѓРјРјС‹ OrderQty РґР»СЏ РєР°Р¶РґРѕРіРѕ РіРѕРґР° Рё Р·РёРјРЅРёС… РјРµСЃСЏС†РµРІ РёР· Production.WorkOrder РІ РІРёРґРµ С‚СЂР°РЅСЃРїРѕРЅРёСЂРѕРІР°РЅРЅРѕР№ РјР°С‚СЂРёС†С‹
 SELECT  Year, [1] AS [January], [2] AS [February], [12] AS [December]
 FROM 
 	(SELECT Year = YEAR([ModifiedDate]), 
