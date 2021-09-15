@@ -1,10 +1,18 @@
 --1
+/* Найдите людей и их номера телефонов, код города которых начинается на  4 и заканчивается на 5.(таблицы Person.PersonPhone, Person.Person) */
+
 SELECT p.FirstName, p.LastName, ph.PhoneNumber
 FROM [Person].[Person] p INNER JOIN [Person].[PersonPhone] ph
 ON p.BusinessEntityID = ph.BusinessEntityID 
 WHERE ph.PhoneNumber LIKE ('4_5%')
 
 --2
+/* Отнести каждого человека из [HumanResources].[Employee] в свою возрастную категорию:
+Adolescence: 17-20
+Adults: 21-59
+Elderly: 60-75
+Senile: 76-90 */
+
 SELECT [BusinessEntityID], [BirthDate], (DATEPART(yy,GETDATE())-DATEPART(yy,[BirthDate])) AS Year,
  CASE 
 	WHEN (DATEPART(yy,GETDATE())-DATEPART(yy,[BirthDate])) BETWEEN 17 AND 20 THEN 'Adolescence'
@@ -15,26 +23,22 @@ END
 FROM [HumanResources].[Employee]
 
 --3
+/* Вывести самый дорогой продукт для каждого цвета из [Production].[Product] */
+
 SELECT [Name], Color, 
 MAX([StandardCost]) OVER (PARTITION BY [Color])
 FROM [Production].[Product]
 
-
-Туристическое агенство
-
+--4
+Туристическое агенство:
 1. Туристические агенства: idТА, название, расположение
-
 2. Тур: idТ, idТА, название_тура, idС, idВ
-
 3. Вид тура: idВ, вид_название
-
 4. Страна: idС, страна
-
 5. Путевка: idП, idТ, цена
-
 6. Продажи: idПр, idП, idК, количество, дата_продажи
-
 7. Клиент: idК, имя, фамилия, отчество, паспорт
 
-Задачи: Какой самый частый клиент у тур.агенства "N".
-Вывести самого частого клиента  тур. агенств (обращался много раз).
+Задачи: Какой самый частый клиент у тур.агенства "N"?
+Вывести самого частого клиента  тур. агенств (обращался много раз) за последний год.
+Какой самый популярный тур?
