@@ -18,7 +18,7 @@ SELECT [BusinessEntityID], [BirthDate], (DATEPART(yy,GETDATE())-DATEPART(yy,[Bir
 	WHEN (DATEPART(yy,GETDATE())-DATEPART(yy,[BirthDate])) BETWEEN 17 AND 20 THEN 'Adolescence'
 	WHEN (DATEPART(yy,GETDATE())-DATEPART(yy,[BirthDate])) BETWEEN 21 AND 59 THEN 'Adults'
 	WHEN (DATEPART(yy,GETDATE())-DATEPART(yy,[BirthDate])) BETWEEN 60 AND 75 THEN 'Elderly'
-	ELSE 'Senile'
+	WHEN (DATEPART(yy,GETDATE())-DATEPART(yy,[BirthDate])) BETWEEN 76 AND 90 THEN 'Senile'
 END
 FROM [HumanResources].[Employee]
 
@@ -28,6 +28,13 @@ FROM [HumanResources].[Employee]
 SELECT [Name], Color, 
 MAX([StandardCost]) OVER (PARTITION BY [Color])
 FROM [Production].[Product]
+
+	--right variant
+SELECT * 
+FROM (SELECT [Name], [Color], [StandardCost],
+	  DENSE_RANK () OVER (PARTITION BY [Color] ORDER BY [StandardCost] DESC) AS rank
+	  FROM [Production].[Product]) t
+WHERE rank = 1
 
 --4
 Туристическое агенство:
