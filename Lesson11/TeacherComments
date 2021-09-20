@@ -1,0 +1,15 @@
+Well done!
+
+Homework
+-1
+Did you test you solution? COUNT(column) is always returning 1, you're just make your query heavier.
+In case that it's a way to get rid of NULLs, there are much easier ways.
+
+Test
+1
+-2
+Managers and clients are connected by client_type.
+Your 'exists'-subquery will return results for all credits, not for the particular client.
+
+Mark: 9
+Test: 8
