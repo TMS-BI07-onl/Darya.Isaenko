@@ -1,0 +1,45 @@
+--TestWork 4
+
+--1.Написать запрос на добавление в таблицу manufacturer нового производителя HP из Америки.
+
+INSERT INTO manufacturer (name, country_id)		-- id генерируется автоматически
+VALUES ('HP', 4)
+
+
+--2.Написать запрос, благодаря которому возраст пользователя Андрей в таблице user уменьшится в 3 раза.
+
+UPDATE user
+SET age = age/3
+WHERE name = 'Андрей'
+
+
+--3.Найти название продукта с максимальной ценой.
+
+SELECT name, price 
+FROM (SELECT name, price,
+	DENSE_RANK () OVER (PARTITION BY price ORDER BY name) AS rank
+	FROM product) t
+WHERE rank = 1
+
+
+--4.Написать запрос на выборку всех пользователей с телефонами, начинающимися на 3 и заканчивающимися на 4, либо с возрастом > 35.
+
+SELECT u.name, p.name
+FROM user u INNER JOIN phone p ON u.id = p.user_id
+WHERE p.name LIKE ('+3%4') 
+	OR u.age > 35
+
+
+--5.Найти топ 5 пользователей, кто купил больше всего продуктов.
+
+SELECT TOP 5 u.name
+FROM
+(SELECT u.name, RANK() OVER(PARTITION BY u.id ORDER BY p.count DESC) AS rank
+FROM
+(SELECT u.name, p.name, p.count
+FROM user u INNER JOIN order o ON u.id = o.user_id
+INNER JOIN product p ON o.product_id = p.id))
+WHERE rank = 1
+
+
+
