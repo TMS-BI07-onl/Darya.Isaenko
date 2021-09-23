@@ -1,0 +1,5 @@
+Well done!
+
+On which step did you apply data converting? I assume, it can work only on this step. Also confirm that in your target table you have nvarchar column for rank.
+
+Mark: 10
