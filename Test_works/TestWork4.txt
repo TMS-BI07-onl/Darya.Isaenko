@@ -5,6 +5,12 @@
 INSERT INTO manufacturer (name, country_id)		-- id генерируется автоматически
 VALUES ('HP', 4)
 
+	-- RIGHT VARIANT
+INSERT INTO manufacturer(name, country_id)
+SELECT 'HP', [id] 
+FROM countries
+WHERE name = 'America'
+
 
 --2.Написать запрос, благодаря которому возраст пользователя Андрей в таблице user уменьшится в 3 раза.
 
@@ -20,6 +26,11 @@ FROM (SELECT name, price,
 	DENSE_RANK () OVER (PARTITION BY price ORDER BY name) AS rank
 	FROM product) t
 WHERE rank = 1
+
+	-- VARIANT
+SELECT name, price AS max_price
+FROM product 
+WHERE price = (SELECT MAX(price) FROM product)
 
 
 --4.Написать запрос на выборку всех пользователей с телефонами, начинающимися на 3 и заканчивающимися на 4, либо с возрастом > 35.
@@ -41,5 +52,8 @@ FROM user u INNER JOIN order o ON u.id = o.user_id
 INNER JOIN product p ON o.product_id = p.id))
 WHERE rank = 1
 
-
-
+	-- RIGHT VARIANT
+SELECT TOP 5 (WITH TIES) name, COUNT(o.user_id) AS cnt
+FROM user u JOIN order o ON ...
+GROUP BY name
+ORDER BY 2 DESC
