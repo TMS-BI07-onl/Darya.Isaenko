@@ -1,0 +1,7 @@
+Well done!
+
+I didn't  get the idea of count(trainer_id) multiplied by points. What is the reason? Probably, some difficult business logic.
+Also, scores case can be in the same select with first rank. There is no need to move it to another step.
+Practically, your solutions are totally equal.
+
+Mark: 10
