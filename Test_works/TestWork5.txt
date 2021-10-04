@@ -1,0 +1,62 @@
+--1. Найти ProductSubcategoryID из Production.Product, где мин вес такого ProductSubcategoryID больше 150. 
+SELECT [ProductSubcategoryID] --, MIN(Weight)
+FROM [Production].[Product]
+GROUP BY [ProductSubcategoryID]
+HAVING MIN(Weight) > 150
+
+
+--2. Найти самый дорогой продукт (поле StandardCost) из Production.Product. (4 способа)
+SELECT Name--, [StandardCost]
+FROM [Production].[Product]
+WHERE [StandardCost] = (SELECT MAX([StandardCost]) FROM [Production].[Product])
+
+SELECT TOP 1 WITH TIES [Name]--, [StandardCost]
+FROM [Production].[Product]
+ORDER BY [StandardCost] DESC
+
+SELECT Name
+FROM 
+(
+SELECT Name, [StandardCost], MAX([StandardCost]) OVER() AS [MaxStandardCost]
+FROM [Production].[Product]
+) a
+WHERE [StandardCost] = [MaxStandardCost]
+
+-- RANK() OVER (PARTITION BY Name ORDER BY [StandardCost] DESC) --> RANK=1
+
+
+--3. Найти заплывы, для которых не указан бассейн.
+SELECT CompetitionID 
+FROM [dbo].[Competition] c LEFT JOIN [dbo].[Location] l ON c.LocationID = l.LocationID 
+WHERE l.LocationID IS NULL
+
+
+--4. Найти для каждого судьи кол-во проведенных судейств за последние 15 лет.  (схема GROUP1)
+SELECT FirstName, LastName, COUNT(b.CompetitionID)
+FROM [dbo].[Judge] j LEFT JOIN [dbo].[Bridge_Judge_Competition] b ON j.JudgeID = b.JudgeID
+		JOIN [dbo].[Competition] c ON b.CompetitionID = c.CompetitionID
+WHERE YEAR(Date) BETWEEN YEAR(GETDATE())-15 AND YEAR(GETDATE())
+GROUP BY FirstName, LastName 
+
+
+/*
+5. 
+Users (
+    id bigint NOT NULL,
+    email varchar(255) NOT NULL
+);
+
+Notifications (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    category varchar(100),
+    is_read boolean DEFAULT false
+);
+
+Найти список категорий для пользователя alex@gmail.com, в которых более 50 непрочитанных нотификаций
+*/
+SELECT category
+FROM Notifications N JOIN Users u ON n.iser_id = u.id 
+WHERE email = 'alex@gmail.com'
+GROUP BY category 
+HAVING COUNT(is_read) > 50
